@@ -1,21 +1,22 @@
-//  backend/index.js
+// backend/src/index.js
 
 const express = require('express');
-
-// Criar uma instância do aplicativo Espress
+const userRoutes = require('./routes/userRoutes'); // Importamos as rotas de usuário
 
 const app = express();
-
-// Definiir a portar que o servidor irá escutar
-// Usamos a variável PORT ou 3001 como padrão
 const PORT = process.env.PORT || 3001;
 
-// Rota de teste para verificar se a API está funcionando
-app.get('/', (req, res) => {
-    res.json({ message: "API do Kanban rodando!"});
-})
+// Middleware para o Express entender JSON
+app.use(express.json());
 
-// Iniciar o sevidor e o faz escutar na porta definida
+// Rota de teste
+app.get('/api', (req, res) => {
+  res.json({ message: "API do Kanban rodando!" });
+});
+
+// Usar as rotas de usuário com o prefixo '/api/users'
+app.use('/api/users', userRoutes);
+
 app.listen(PORT, () => {
-    console.log(`Seriddor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
